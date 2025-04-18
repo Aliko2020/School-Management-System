@@ -15,7 +15,7 @@ const registerUser = async (req, res) => {
     );
 
     if (existingStudentId.rows.length > 0) {
-      return res.status(409).json({ message: 'Student ID is already associated with an existing user' });
+      return res.status(409).json({ message: 'Student ID is already associated with an existing user'});
     }
 
     // Verify if the student_id exists in the students table 
@@ -62,18 +62,15 @@ const userLogin = async (req, res) => {
       );
   
       const user = userResult.rows[0];
-      console.log(user);
       
       if (!user) {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
   
       const passwordMatch = await bcrypt.compare(password, user.password);
-  
+      console.log(passwordMatch);
+      
       if (passwordMatch) {
-        // 4. Authentication successful
-        // You would typically generate a session token or JWT here
-        // For this example, we'll just send a success message with user info
         const { password: hashedPassword, ...userData } = user;
         return res.status(200).json({ message: 'Login successful', user: userData });
       } else {
