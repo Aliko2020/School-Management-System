@@ -26,7 +26,7 @@ const getStudent = async (req, res) => {
 };
 
 
-// all students
+// students
 const getAllStudents = async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM students');
@@ -37,11 +37,20 @@ const getAllStudents = async (req, res) => {
   }
 };
 
-// create a new student
 const createStudent = async (req, res) => {
   const { first_name, last_name, date_of_birth, gender, address, contact_number, email, enrollment_date, student_class } = req.body;
 
   try {
+    // first, last name and DOB already exists ?
+    const existingStudent = await pool.query(
+      'SELECT * FROM students WHERE first_name = $1 AND last_name = $2 AND date_of_birth = $3',
+      [first_name, last_name, date_of_birth]
+    );
+
+    if (existingStudent.rows.length > 0) {
+      return res.status(409).json({ message: 'Student with this name and date of birth already exists' });
+    }
+
     const result = await pool.query(
       'INSERT INTO students (first_name, last_name, date_of_birth, gender, address, contact_number, email, enrollment_date, student_class) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
       [first_name, last_name, date_of_birth, gender, address, contact_number, email, enrollment_date, student_class]

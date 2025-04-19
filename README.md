@@ -1,6 +1,6 @@
 # School Management System Backend
 
-This is the backend API for a School Management System designed to handle day-to-day operations, built using Node.js, Express, and PostgreSQL. It provides RESTful endpoints for managing student, teacher, and user data.
+This is the backend API for a School Management System designed to handle day-to-day operations, built using Node.js, Express, and PostgreSQL. It provides RESTful endpoints for managing student, teacher, and user data.C
 
 ## Features
 

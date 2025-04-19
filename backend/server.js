@@ -4,8 +4,9 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 5000
-const userRouter = require("./routes/users");
-const studentRouter = require("./routes/students");
+const pool = require("./config/database");
+const userRouter = require("./routes/userAuth");
+const studentRouter = require("./routes/studentsCrud");
 
 
 app.use(cors());
