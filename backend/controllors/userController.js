@@ -18,7 +18,6 @@ const registerUser = async (req, res) => {
       return res.status(409).json({ message: 'Student ID is already associated with an existing user'});
     }
 
-    // Verify if the student_id exists in the students table 
     const existingStudent = await pool.query(
       'SELECT student_id FROM students WHERE student_id = $1',
       [student_id]
@@ -68,7 +67,6 @@ const userLogin = async (req, res) => {
       }
   
       const passwordMatch = await bcrypt.compare(password, user.password);
-      console.log(passwordMatch);
       
       if (passwordMatch) {
         const { password: hashedPassword, ...userData } = user;
