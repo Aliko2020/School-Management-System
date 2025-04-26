@@ -1,10 +1,11 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const pool = require('../config/database');
 
 const registerStudent = async (req, res) => {
   const { user_name, password, role, student_id} = req.body;
 
-  if (!user_name || !password || !role || student_id === undefined) {
+  if (!(user_name && password && role && student_id)) {
     return res.status(400).json({ message: 'Please provide username, password, role & student ID' });
   }
 
@@ -39,8 +40,19 @@ const registerStudent = async (req, res) => {
     );
 
     const newUser = userResult.rows[0];
+    
+    // generate token
+    const token = jwt.sign(
+      {
+        id: newUser.user_id,
+        role: newUser.role,
+        studentId: newUser.student_id
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    )
 
-    return res.status(201).json({ message: 'Student registered successfully', user: newUser });
+    return res.status(201).json({ message: 'Student registered successfully', user: newUser, token: token });
 
   } catch (error) {
     console.error('Error during student registration:', error);
@@ -51,7 +63,7 @@ const registerStudent = async (req, res) => {
 const registerTeacher = async (req, res) => {
   const { user_name, password, role, teacher_id} = req.body;
 
-  if (!user_name || !password || !role || !teacher_id) {
+  if (!(user_name && password && role && teacher_id)) {
     return res.status(400).json({ message: 'Please provide username, password, role & teacher ID' });
   }
 
@@ -86,8 +98,20 @@ const registerTeacher = async (req, res) => {
     );
 
     const newUser = userResult.rows[0];
+    console.log(newUser);
+    
+    //generate token for teacher
+    const token = jwt.sign(
+      {
+        id: newUser.user_id,
+        role: newUser.role,
+        teacherid: newUser.teacher_id
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    )
 
-    return res.status(201).json({ message: 'Teacher registered successfully', user: newUser });
+    return res.status(201).json({ message: 'Teacher registered successfully', user: newUser,token });
 
   } catch (error) {
     console.error('Error during teacher registration:', error);
@@ -100,7 +124,7 @@ const registerTeacher = async (req, res) => {
 const studentLogin = async (req, res) => {
     const { student_id, password } = req.body;
 
-    if (!student_id || !password) {
+    if (!(student_id && password)) {
       return res.status(400).json({ message: 'Please provide student ID and password' });
     }
 
@@ -110,11 +134,10 @@ const studentLogin = async (req, res) => {
         [student_id]
 
       );
-
       const user = userResult.rows[0];
-
+      
       if (!user) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'Invalid credentials,user not found' });
       }
 
       if (user.role !== 'student') {
@@ -125,7 +148,18 @@ const studentLogin = async (req, res) => {
 
       if (passwordMatch) {
         const { password: hashedPassword, ...userData } = user;
-        return res.status(200).json({ message: 'Student login successful', user: userData });
+        
+        const token = jwt.sign(
+          {
+            userid: userData.user_id
+          },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: '1h'
+          }
+        )
+
+        return res.status(200).json({ message: 'Student login successful', user: userData, token });
       } else {
 
         return res.status(401).json({ message: 'Invalid credentials' });
@@ -140,7 +174,7 @@ const studentLogin = async (req, res) => {
 const teacherLogin = async (req, res) => {
     const { teacher_id, password } = req.body;
 
-    if (!teacher_id || !password) {
+    if (!(teacher_id && password)) {
       return res.status(400).json({ message: 'Please provide teacher ID and password' });
     }
 
@@ -164,7 +198,17 @@ const teacherLogin = async (req, res) => {
 
       if (passwordMatch) {
         const { password: hashedPassword, ...userData } = user;
-        return res.status(200).json({ message: 'Teacher login successful', user: userData });
+
+        const token = jwt.sign(
+          {
+            userid: userData.user_id
+          },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: '1h'
+          }
+        )
+        return res.status(200).json({ message: 'Teacher login successful', user: userData, token});
       } else {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
