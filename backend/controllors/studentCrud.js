@@ -26,7 +26,6 @@ const getStudent = async (req, res) => {
 };
 
 
-// students
 const getAllStudents = async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM students');
