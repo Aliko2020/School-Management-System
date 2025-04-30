@@ -139,7 +139,7 @@ const registerTeacher = async (req, res) => {
 };
 
 
-//Login logic
+
 const studentLogin = async (req, res) => {
     const { student_id, password } = req.body;
 
@@ -173,9 +173,12 @@ const studentLogin = async (req, res) => {
       if (passwordMatch) {
         const { password: hashedPassword, ...userData } = user;
         
+        console.log(userData);
+
         const token = jwt.sign(
           {
-            userid: userData.user_id
+            userid: userData.student_id,
+            role: userData.role
           },
           process.env.JWT_SECRET,
           {
@@ -233,10 +236,11 @@ const teacherLogin = async (req, res) => {
 
       if (passwordMatch) {
         const { password: hashedPassword, ...userData } = user;
-
+        
         const token = jwt.sign(
           {
-            userid: userData.user_id
+            userid: userData.user_id,
+            role: userData.role
           },
           process.env.JWT_SECRET,
           {

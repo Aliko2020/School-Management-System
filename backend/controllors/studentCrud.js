@@ -1,11 +1,16 @@
 const pool = require("../config/database");
 
-// student by ID
+
 const getStudent = async (req, res) => {
   const studentId = parseInt(req.params.id);
 
   if (isNaN(studentId)) {
     return res.status(400).json({ message: 'Invalid student ID format' });
+  }
+  
+  
+  if (req.user.role === 'student' && req.user.userid !== studentId) {
+    return res.status(403).json({ message: 'Access denied: you can only view your own profile' });
   }
 
   try {
@@ -24,6 +29,7 @@ const getStudent = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 
 const getAllStudents = async (req, res) => {
@@ -83,7 +89,7 @@ const updateStudent = async (req, res) => {
   }
 };
 
-// DELETE STUDENT
+
 const deleteStudent = async (req, res) => {
   const studentId = req.params.id;
 
