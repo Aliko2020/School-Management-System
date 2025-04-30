@@ -59,6 +59,28 @@ JWT_SECRET=your_secret_key
 
 ---
 
+## 📊 Database Schema
+
+Below is a snapshot of the current PostgreSQL tables used in the application:
+
+```sql
+sms=# \dt
+            List of relations
+ Schema |     Name     | Type  |  Owner   
+--------+--------------+-------+----------
+ public | announcement | table | postgres
+ public | class        | table | postgres
+ public | fees         | table | postgres
+ public | parents      | table | postgres
+ public | students     | table | postgres
+ public | teachers     | table | postgres
+ public | users        | table | postgres
+(7 rows)
+
+sms=# 
+
+---
+
 ## ▶️ Running the Application
 
 ```bash
