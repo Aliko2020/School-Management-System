@@ -1,74 +1,111 @@
-# School Management System Backend
+# 🎓 School Management System Backend
 
-This is the backend API for a School Management System designed to handle day-to-day operations, built using Node.js, Express, and PostgreSQL. It provides RESTful endpoints for managing student, teacher, and user data.C
+This is the backend API for a School Management System designed to handle day-to-day operations, built using **Node.js**, **Express**, and **PostgreSQL**. It provides RESTful endpoints for managing students, teachers, users, and announcements.
 
-## Features
+---
 
-* **CRUD Operations for Students:**
-    * Read, Update, and Delete student records.
-* **CRUD Operations for Teachers:**
-    * Create, Read, Update, and Delete teacher records.
-* **User Management (Planned/Implemented):**
-    * Create, Read, Update, and Delete user accounts.
-    * Authentication and Authorization.
+## 🚀 Features
 
-## Technologies Used
+- **CRUD Operations for Students**
+- **CRUD Operations for Teachers**
+- **User Authentication & Role-Based Access Control**
+- **Announcements by Teachers & Admins**
 
-* **Node.js:** JavaScript runtime environment for server-side development.
-* **Express.js:** Minimalist web application framework for Node.js.
-* **PostgreSQL:** Relational database management system.
-* **`pg` (or `pg-pool`):** Node.js client for PostgreSQL to interact with the database.
-* **`dotenv`:** Module to load environment variables from a `.env` file.
-* **`cors`:** Middleware to enable Cross-Origin Resource Sharing.
+---
 
-## Prerequisites
+## 🛠 Technologies Used
 
-Before you begin, ensure you have the following installed:
+- **Node.js** – JavaScript runtime environment
+- **Express.js** – Web framework for Node.js
+- **PostgreSQL** – Relational database
+- **pg** – PostgreSQL client for Node.js
+- **dotenv** – Manage environment variables
+- **cors** – Enable cross-origin requests
 
-* **Node.js:** (version >= 14.0.0 recommended) - [Download Node.js](https://nodejs.org/)
-* **npm** (Node Package Manager) - usually installed with Node.js
-* **PostgreSQL:** (version >= 12 recommended) - [Download PostgreSQL](https://www.postgresql.org/download/)
+---
 
-## Installation
+## 🧰 Prerequisites
 
-1.  **Clone the repository:**
+- **Node.js** (v14+): [Download](https://nodejs.org/)
+- **npm** (comes with Node.js)
+- **PostgreSQL** (v12+): [Download](https://www.postgresql.org/download/)
 
-    ```bash
-    git clone https://github.com/Aliko2020/School-Management-System.git
-    cd backend
-    ```
+---
 
-2.  **Install dependencies:**
-
-    ```bash
-    npm install
-    ```
-
-## Configuration
-
-1.  **Create a `.env` file:**
-
-    In the root directory of the project, create a file named `.env`.
-
-2.  **Configure environment variables:**
-
-    Open the `.env` file and add your PostgreSQL database connection details and the server port. Replace the placeholder values with your actual credentials:
-
-    ```dotenv
-    PORT=3000
-    DB_HOST=localhost
-    DB_USER=your_db_user
-    DB_PASSWORD=your_db_password
-    DB_NAME=your_db_name
-    DB_PORT=5432
-    ```
-3.  **Database Setup:**
-
-    Ensure that the database specified in your `.env` file (`sms`) exists in your PostgreSQL server. You might need to create it and potentially run migrations or seed data to set up the initial schema.
-
-## Running the Application
-
-To start the backend server, run the following command in your project directory:
+## ⚙️ Installation
 
 ```bash
-npm run dev
+git clone https://github.com/Aliko2020/School-Management-System.git
+cd backend
+npm install
+```
+
+---
+
+## ⚙️ Configuration
+
+1. Create a `.env` file in the `backend/` directory:
+2. Add your configuration:
+
+```env
+PORT=3000
+DB_HOST=localhost
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
+DB_NAME=your_db_name
+DB_PORT=5432
+JWT_SECRET=your_secret_key
+```
+
+---
+
+## ▶️ Running the Application
+
+```bash
+npm start
+```
+
+---
+
+## 📘 API Endpoints
+
+### 🔐 Auth Routes (`/api/users`)
+
+| Method | Endpoint     | Description                      |
+|--------|--------------|----------------------------------|
+| POST   | `/register`  | Register new user                |
+| POST   | `/login`     | Login user (student/teacher/admin) |
+
+---
+
+### 🎓 Student Routes (`/api/students`)
+
+| Method | Endpoint     | Roles Allowed        | Description             |
+|--------|--------------|----------------------|-------------------------|
+| GET    | `/`          | admin, teacher        | Get all students        |
+| GET    | `/:id`       | admin, student        | Get student by ID       |
+| POST   | `/`          | admin                 | Create new student      |
+| PUT    | `/:id`       | admin                 | Update student by ID    |
+| DELETE | `/:id`       | admin                 | Delete student by ID    |
+
+---
+
+### 👨‍🏫 Teacher Routes (`/api/teachers`)
+
+| Method | Endpoint     | Roles Allowed        | Description             |
+|--------|--------------|----------------------|-------------------------|
+| GET    | `/`          | admin                 | Get all teachers        |
+| GET    | `/:id`       | admin, teacher        | Get teacher by ID       |
+| POST   | `/`          | admin                 | Create new teacher      |
+| DELETE | `/:id`       | admin                 | Delete teacher by ID    |
+
+---
+
+### 📢 Announcement Routes (`/api/announcements`)
+
+| Method | Endpoint     | Roles Allowed                | Description                     |
+|--------|--------------|------------------------------|---------------------------------|
+| GET    | `/`          | admin, teacher, student, parent | Get all announcements       |
+| POST   | `/`          | admin, teacher                | Create new announcement        |
+| PUT    | `/:id`       | admin                         | Update announcement by ID      |
+| DELETE | `/:id`       | admin, teacher (owner only)   | Delete announcement by ID      |
