@@ -137,7 +137,7 @@ npm start
 | DELETE | `/:id`       | admin, teacher (owner only)   | Delete announcement by ID      |
 
 
-### Log Data Description
+## 📑Log Data Description
 This log file contains information about requests made to the server. Each entry captures details about a single request, providing context for debugging, monitoring, and analysis.
 
 ### Logged Information
