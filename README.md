@@ -65,17 +65,21 @@ Below is a snapshot of the current PostgreSQL tables used in the application:
 
 ```sql
 sms=# \dt
-            List of relations
- Schema |     Name     | Type  |  Owner   
+           List of relations
+ Schema |     Name     | Type  |  Owner
 --------+--------------+-------+----------
  public | announcement | table | postgres
  public | class        | table | postgres
+ public | exams        | table | postgres
  public | fees         | table | postgres
  public | parents      | table | postgres
+ public | results      | table | postgres
  public | students     | table | postgres
+ public | subjects     | table | postgres
  public | teachers     | table | postgres
+ public | terms        | table | postgres
  public | users        | table | postgres
-(7 rows)
+(11 rows)
 
 sms=# 
 
