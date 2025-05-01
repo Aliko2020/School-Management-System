@@ -97,10 +97,13 @@ npm start
 
 ### 🔐 Auth Routes (`/api/users`)
 
-| Method | Endpoint     | Description                      |
-|--------|--------------|----------------------------------|
-| POST   | `/register`  | Register new user                |
-| POST   | `/login`     | Login user (student/teacher/admin) |
+| Method | Endpoint           | Description                      |
+|--------|--------------      |----------------------------------|
+| POST   | `/admin/register`  | Register an admin (1 allowed)    |
+| POST   | `/admin/login`     | Login an admin                   |
+| POST   | `/registerStudent` | Register new student             |
+| POST   | `/loginStudent`    | Login user (student)             |
+| POST   | `/loginTeacher`    | Login user (student)             |
 
 ---
 
