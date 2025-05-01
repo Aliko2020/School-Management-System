@@ -1,2 +1,0 @@
-TIME_OF_REQUEST:2025-05-01T21:30:14.568Z --- Request [POST] [/api/users/loginStudent] from IP: ::ffff:127.0.0.1, User-Agent: Thunder Client (https://www.thunderclient.com)
-TIME_OF_REQUEST:2025-05-01T21:31:07.095Z --- Request [POST] [/api/users/loginTeacher] from IP: ::ffff:127.0.0.1, User-Agent: Thunder Client (https://www.thunderclient.com)
