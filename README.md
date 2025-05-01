@@ -135,3 +135,39 @@ npm start
 | POST   | `/`          | admin, teacher                | Create new announcement        |
 | PUT    | `/:id`       | admin                         | Update announcement by ID      |
 | DELETE | `/:id`       | admin, teacher (owner only)   | Delete announcement by ID      |
+
+
+### Log Data Description
+This log file contains information about requests made to the server. Each entry captures details about a single request, providing context for debugging, monitoring, and analysis.
+
+### Logged Information
+Each log entry includes the following information:
+
+TIME_OF_REQUEST:  The date and time when the request was received.
+
+Request:
+
+[METHOD]: The HTTP method used for the request (e.g., GET, POST, PUT, DELETE).
+
+[URL]: The URL that was requested.
+
+from IP: The IP address of the client that made the request.
+
+User-Agent: The user agent string of the client, which provides information about the browser or application used to make the request.
+
+Headers:  The HTTP headers sent with the request.  This includes information about the content type, encoding, and other request properties.
+
+Path: The path portion of the requested URL.
+
+Hostname: The hostname of the server that received the request.
+
+Protocol:  The protocol used for the request (e.g., http, https).
+
+Secure:  Indicates whether the request was made over a secure connection (https).
+
+Params:  Any parameters extracted from the URL's path.
+
+Query:  Any parameters provided in the URL's query string.
+
+Body:  The data sent in the body of the request (if any).  This is typically used for POST, PUT, and PATCH requests.
+
