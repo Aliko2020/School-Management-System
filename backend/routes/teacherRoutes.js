@@ -10,9 +10,9 @@ const {
 } = require('../controllors/teacherCrud');
 
 
-router.get('/teachers',auth,authorizeRoles('admin'),getTeachers);
-router.get('/teachers/:id',auth,authorizeRoles('teacher','admin'),getTeacherbyid)
-router.post('/teachers',auth,authorizeRoles('admin'),createTeacher);
-router.delete('/teachers/:id',auth,authorizeRoles('admin'),deleteTeacher);
+router.get('/',auth,authorizeRoles('admin'),getTeachers);
+router.get('/:id',auth,authorizeRoles('teacher','admin'),getTeacherbyid)
+router.post('/',auth,authorizeRoles('admin'),createTeacher);
+router.delete('/:id',auth,authorizeRoles('admin'),deleteTeacher);
 
 module.exports = router

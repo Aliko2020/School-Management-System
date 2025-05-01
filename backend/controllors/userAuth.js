@@ -173,8 +173,6 @@ const studentLogin = async (req, res) => {
       if (passwordMatch) {
         const { password: hashedPassword, ...userData } = user;
         
-        console.log(userData);
-
         const token = jwt.sign(
           {
             userid: userData.student_id,

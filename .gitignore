@@ -3,6 +3,8 @@
 
 /backend/.env
 
+/backend/logs/sever.log
+
 # Frontend dependencies 
 /frontend/node_modules/
 
