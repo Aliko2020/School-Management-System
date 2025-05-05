@@ -7,15 +7,38 @@ const getStudent = async (req, res) => {
   if (isNaN(studentId)) {
     return res.status(400).json({ message: 'Invalid student ID format' });
   }
-  
-  
+
   if (req.user.role === 'student' && req.user.userid !== studentId) {
     return res.status(403).json({ message: 'Access denied: you can only view your own profile' });
   }
 
   try {
     const result = await pool.query(
-      'SELECT * FROM students WHERE student_id = $1',
+      `SELECT 
+        s.student_id,
+        s.first_name AS student_first_name,
+        s.last_name AS student_last_name,
+        s.date_of_birth,
+        s.gender,
+        s.address,
+        s.contact_number,
+        s.email,
+        s.enrollment_date,
+        c.class_name,
+        f.amount AS fee_amount,
+        f.payment_status,
+        f.payment_date,
+        p.first_name AS parent_first_name,
+        p.last_name AS parent_last_name,
+        p.contact_number AS parent_contact,
+        p.email AS parent_email
+      FROM 
+        students s
+      LEFT JOIN class c ON s.student_class = c.class_id
+      LEFT JOIN fees f ON s.student_id = f.student_id
+      LEFT JOIN parents p ON s.student_id = p.student_id
+      WHERE 
+        s.student_id = $1`,
       [studentId]
     );
 
@@ -25,7 +48,7 @@ const getStudent = async (req, res) => {
       res.status(404).json({ message: 'Student not found' });
     }
   } catch (err) {
-    console.error('Error fetching student:', err);
+    console.error('Error retrieving student:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
