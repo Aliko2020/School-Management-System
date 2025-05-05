@@ -130,6 +130,17 @@ npm start
 
 ---
 
+###📘 Parent API Routes ('/api/parent')
+A
+| Method | Endpoint | Access Roles       | Description                                         |
+| ------ | -------- | ------------------ | --------------------------------------------------- |
+| GET    | `/`      | `admin`            | Get a list of all parents.                          |
+| GET    | `/:id`   | `student`, `admin` | Get a parent by student ID.                         |
+| POST   | `/`      | `student`, `admin` | Add a parent associated with the logged-in student. |
+| DELETE | `/:id`   | `admin`            | Delete a parent by `parent_id`.                     |
+
+---
+
 ### 📢 Announcement Routes (`/api/announcements`)
 
 | Method | Endpoint     | Roles Allowed                | Description                     |
