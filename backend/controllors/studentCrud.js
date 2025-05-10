@@ -69,7 +69,6 @@ const createStudent = async (req, res) => {
   const { first_name, last_name, date_of_birth, gender, address, contact_number, email, enrollment_date, student_class } = req.body;
 
   try {
-    // first, last name and DOB already exists ?
     const existingStudent = await pool.query(
       'SELECT * FROM students WHERE first_name = $1 AND last_name = $2 AND date_of_birth = $3',
       [first_name, last_name, date_of_birth]
