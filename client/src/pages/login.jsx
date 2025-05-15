@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../features/auth/authSlice'
+
+
+
+
 
 const LoginPage = () => {
   const dispatch = useDispatch()
@@ -13,6 +17,16 @@ const LoginPage = () => {
     email: '',
     password: '',
   })
+
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (userInfo) {
+      if (userInfo.role === 'admin') navigate('/admin/home')
+      else if (userInfo.role === 'teacher') navigate('/teacher/home')
+      else navigate('/student/home')
+    }
+  }, [userInfo, navigate])
+
 
   const handleInputs = (e) => {
     setFormData({

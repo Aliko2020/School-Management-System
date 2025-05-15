@@ -7,10 +7,14 @@ const LinksByRole = {
         {name: "Students", path: "/admin/students", icon: <FaUserGraduate size={30} />},
         {name: "Teachers", path: "/admin/teachers", icon: <FaChalkboardTeacher size={30} />},
         {name: "Subjects",path: "/admin/subjects", icon: <FaBook size={30} />},
-        {name: "Annoucements", path: "/admin/annoucements", icon: <FaBell  size={30}/>}
+        {name: "Annoucements", path: "/admin/announcements", icon: <FaBell  size={30}/>}
     ],
     student: [
-        {name: "Student Detials", path: "/student/details"}
+        {name: "Home", path: "/student/home", icon: <FaHome size={30} />},
+        {name: "Details", path: "/student/details",icon: <FaBook size={30} />},
+        {name: "Results", path: "/student/results", icon: <FaBook size={30} />},
+        {name: "Fees", path: "/student/fees", icon: <FaMoneyBill size={30} />},
+        {name: "Annoucements", path: "/students/announcements", icon: <FaBell  size={30}/>}
     ]
 }
 

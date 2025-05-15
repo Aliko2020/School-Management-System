@@ -1,5 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { isTokenValid } from '../../utils/auth';
+const token = localStorage.getItem('userToken');
+const user = localStorage.getItem('userInfo');
+const tokenIsValid = token && isTokenValid(token);
+
+
 
 
 export const loginUser = createAsyncThunk(
@@ -37,12 +43,15 @@ export const loginUser = createAsyncThunk(
 
 const initialState = {
     loading: false,
-    userInfo: localStorage.getItem('userInfo')
-      ? JSON.parse(localStorage.getItem('userInfo'))
-      : null,
-    userToken: localStorage.getItem('userToken') || null,
+    userInfo: tokenIsValid && user ? JSON.parse(user) : null,
+    userToken: tokenIsValid ? token : null,
     error: null,
-    success: localStorage.getItem('userToken') ? true : false,
+    success: tokenIsValid,
+  };
+  
+  if (!tokenIsValid) {
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('userToken');
   }
   
   
@@ -56,7 +65,9 @@ const authSlice = createSlice({
             state.userToken = null
             state.error = null
             state.success = false
-        },
+            localStorage.removeItem('userInfo')
+            localStorage.removeItem('userToken')
+        }        
     },
     extraReducers: (builder) => {
         builder
