@@ -3,9 +3,9 @@ import React, { useEffect, useState, useCallback } from 'react'
 import AnnouncementsTable from './AnnoucementTable'
 import AddAnnouncementForm from './AnnoucementForm'
 
-
 const Annoucement = () => {
   const [announcements, setAnnoucements] = useState([])
+  const [role, setRole] = useState('')
 
   const fetchAnnouncements = useCallback(async () => {
     const token = localStorage.getItem('userToken')
@@ -23,11 +23,17 @@ const Annoucement = () => {
 
   useEffect(() => {
     fetchAnnouncements()
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    if (userInfo?.role) {
+      setRole(userInfo.role)
+    }
   }, [fetchAnnouncements])
 
   return (
     <div className='mt-8 p-4'>
-      <AddAnnouncementForm onAdded={fetchAnnouncements} />
+      {(role === 'admin' || role === 'teacher') && (
+        <AddAnnouncementForm onAdded={fetchAnnouncements} />
+      )}
       <AnnouncementsTable announcements={announcements} />
     </div>
   )

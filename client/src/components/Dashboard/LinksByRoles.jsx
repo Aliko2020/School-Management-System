@@ -14,7 +14,7 @@ const LinksByRole = {
         {name: "Details", path: "/student/details",icon: <FaBook size={30} />},
         {name: "Results", path: "/student/results", icon: <FaBook size={30} />},
         {name: "Fees", path: "/student/fees", icon: <FaMoneyBill size={30} />},
-        {name: "Annoucements", path: "/students/announcements", icon: <FaBell  size={30}/>}
+        {name: "Annoucements", path: "/student/announcements", icon: <FaBell  size={30}/>}
     ]
 }
 

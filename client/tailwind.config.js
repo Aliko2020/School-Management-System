@@ -11,7 +11,10 @@ module.exports = {
         primaryLight: '#4877BD',
         secondary: '#679437',
         secondary2: '#84ac5d'
-      }
+      },
+      fontFamily: {
+        openSans: ['"Open Sans"', 'sans-serif'],
+      },
     },
   },
   plugins: [],

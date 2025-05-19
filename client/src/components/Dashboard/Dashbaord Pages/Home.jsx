@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect, useMemo } from 'react';
-import { FaUsers } from "react-icons/fa6";
+import { FaUsers,FaGraduationCap } from "react-icons/fa6";
+import { FaChalkboardTeacher } from "react-icons/fa";
+
 
 const Home = () => {
     const [students, setStudents] = useState([]);
@@ -49,7 +51,7 @@ const Home = () => {
         {
             total: students.length,
             name: 'Total Students',
-            icon: <FaUsers size={65} />,
+            icon: <FaGraduationCap size={65} />,
             description: 'Boarding',
             percentage: 100,
             bgColor: "#1D92BD"
@@ -57,7 +59,7 @@ const Home = () => {
         {
             total: 12,
             name: 'Staff Members',
-            icon: <FaUsers size={65} />,
+            icon: <FaChalkboardTeacher size={65} />,
             description: 'Teaching Staff',
             percentage: 45,
             bgColor: "#64A71D"
@@ -65,7 +67,6 @@ const Home = () => {
         {
             total: totalFemale,
             name: 'Female Students',
-            icon: <FaUsers size={65} />,
             description: 'Active',
             percentage: femalePercentage,
             bgColor: "#E957DA"
@@ -73,7 +74,6 @@ const Home = () => {
         {
             total: totalMale,
             name: 'Male Students',
-            icon: <FaUsers size={65} />,
             description: 'Active',
             percentage: malePercentage,
             bgColor: "#4877BD"
@@ -86,7 +86,7 @@ const Home = () => {
                 {summaryInfo.map((card, index) => (
                     <div
                         key={index}
-                        className="p-4 flex flex-col gap-2 justify-between rounded-md"
+                        className="p-4 flex flex-col gap-2 justify-between"
                         style={{ backgroundColor: card.bgColor, color: 'white' }}
                     >
                         <span className="text-3xl font-bold">{card.total}</span>

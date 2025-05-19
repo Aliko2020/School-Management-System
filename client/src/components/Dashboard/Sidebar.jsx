@@ -10,6 +10,9 @@ const Sidebar = () => {
 
   return (
     <div className="bg-primaryLight h-[calc(100vh-64px)] mt-1 p-4 text-white w-64">
+      <div className="flex justify-center items-center">
+          <span>Hello</span>
+      </div>
       <ul className="flex flex-col gap-10 mt-10">
         {links.map((link) => (
           <li key={link.path}>

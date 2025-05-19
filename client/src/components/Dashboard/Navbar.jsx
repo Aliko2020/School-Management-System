@@ -26,7 +26,7 @@ export const Navbar = () => {
 
     return (
         <nav className='w-full flex justify-between items-center bg-primaryLight py-12 px-2 text-white'>
-            <span className='text-2xl'>SmartLearn: #Admin</span>
+            <span className='text-2xl'></span>
 
             <div className='flex gap-3 items-center relative'>
                 <div className="relative inline-block cursor-pointer">

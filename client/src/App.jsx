@@ -14,12 +14,11 @@ import Unauthorized from './pages/Unauthorized';
 function App() {
   return (
     <Router>
-      <main>
+      <main className='font-openSans'>
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
-          {/* Admin Routes */}
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
             <Route path="/admin" element={<DashboardLayout />}>
               <Route path="home" element={<Home />} />
@@ -31,7 +30,6 @@ function App() {
             </Route>
           </Route>
 
-          {/* Student Routes */}
           <Route element={<ProtectedRoute allowedRoles={['student','admin']} />}>
             <Route path="/student" element={<DashboardLayout />}>
               <Route path="home" element={<StudentHome />} />

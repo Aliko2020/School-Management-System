@@ -11,8 +11,8 @@ const ProtectedRoute = ({ allowedRoles }) => {
 
   try {
     const decoded = jwtDecode(userToken);
-    const userRole = decoded.role; // assumes your token includes a `role`
-
+    const userRole = decoded.role;
+    
     if (!allowedRoles.includes(userRole)) {
       return <Navigate to="/unauthorized" />;
     }
