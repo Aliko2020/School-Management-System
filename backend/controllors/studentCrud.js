@@ -21,8 +21,6 @@ const getStudent = async (req, res) => {
         s.date_of_birth,
         s.gender,
         s.address,
-        s.contact_number,
-        s.email,
         s.enrollment_date,
         c.class_name,
         f.amount AS fee_amount,
@@ -56,9 +54,24 @@ const getStudent = async (req, res) => {
 
 
 const getAllStudents = async (req, res) => {
+  const page = req.query.page || 1;
+  const limit = req.query.limit || 10;
+  const offset = (page - 1) * limit
+
   try {
-    const result = await pool.query('SELECT * FROM students');
-    res.status(200).json(result.rows);
+    const total_records = await pool.query('SELECT COUNT(*) FROM students')
+    const total_students = total_records.rows[0].count
+    
+    const result = await pool.query('SELECT * FROM students s ORDER BY s.student_id LIMIT $1 OFFSET $2',[limit,offset]);
+    
+    res.status(200).json({
+      page,
+      limit,
+      total_students,
+      total_pages: Math.ceil(total_students / limit),
+      data: result.rows
+    })
+
   } catch (err) {
     console.error('Error fetching all students:', err);
     res.status(500).json({ message: 'Internal server error' });
