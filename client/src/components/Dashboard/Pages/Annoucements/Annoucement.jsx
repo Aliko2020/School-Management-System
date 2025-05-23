@@ -31,10 +31,10 @@ const Annoucement = () => {
 
   return (
     <div className='mt-8 p-4'>
+      <AnnouncementsTable announcements={announcements} />
       {(role === 'admin' || role === 'teacher') && (
         <AddAnnouncementForm onAdded={fetchAnnouncements} />
       )}
-      <AnnouncementsTable announcements={announcements} />
     </div>
   )
 }

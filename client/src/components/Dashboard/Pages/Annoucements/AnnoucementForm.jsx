@@ -68,7 +68,7 @@ const AddAnnouncementForm = ({ onAdded }) => {
 
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-full mx-auto mb-6">
+    <form onSubmit={handleSubmit} className="max-w-full mx-auto mt-8">
       <h3 className="text-lg font-semibold mb-4">Add Announcement</h3>
 
       <div className="flex gap-4  items-center flex-wrap">

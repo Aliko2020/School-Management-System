@@ -1,60 +1,41 @@
-import axios from 'axios';
-import React, { useState, useEffect, useMemo } from 'react';
-import { FaUsers,FaGraduationCap } from "react-icons/fa6";
+import React, { useState, useEffect } from 'react';
+import { FaGraduationCap } from "react-icons/fa6";
 import { FaChalkboardTeacher } from "react-icons/fa";
+import { fetchStudents } from '@/api/studentServices';
+import { PiLinkSimpleFill } from "react-icons/pi";
+import Card from './Card';
+
+
 
 
 const Home = () => {
-    const [students, setStudents] = useState([]);
+    const [students, setStudents] = useState({});
 
     useEffect(() => {
-        const fetchStudentData = async () => {
-            const token = localStorage.getItem('userToken');
-
+        const getStudentData = async () => {
             try {
-                const res = await axios.get('http://localhost:3000/api/students', {
-                    headers: {
-                        Authorization: token.startsWith("Bearer") ? token : `Bearer ${token}`,
-                    }
-                });
-                setStudents(res.data);
+                const data = await fetchStudents();
+                setStudents(data);
             } catch (error) {
-                console.error('Error fetching students:', error);
+                console.error('Error fetching students:', error.message);
             }
         };
 
-        fetchStudentData();
+        getStudentData();
     }, []);
-
-    const totalStudents = students.length;
-
-    const totalMale = useMemo(() =>
-        students.filter(s => s.gender === 'male').length, [students]
-    );
-
-    const totalFemale = useMemo(() =>
-        students.filter(s => s.gender === 'female').length, [students]
-    );
-
-    const malePercentage = useMemo(() =>
-        totalStudents > 0 ? ((totalMale / totalStudents) * 100).toFixed(1) : 0,
-        [totalMale, totalStudents]
-    );
-
-    const femalePercentage = useMemo(() =>
-        totalStudents > 0 ? ((totalFemale / totalStudents) * 100).toFixed(1) : 0,
-        [totalFemale, totalStudents]
-    );
-
+    const total_students = students?.total_students || 0;
+    const genderDetails = students?.genderDetails || {};
+    const maleCount = parseInt(genderDetails.male_count) || 0;
+    const femaleCount = parseInt(genderDetails.female_count) || 0;
 
     const summaryInfo = [
         {
-            total: students.length,
+            total: total_students,
             name: 'Total Students',
             icon: <FaGraduationCap size={65} />,
             description: 'Boarding',
             percentage: 100,
-            bgColor: "#1D92BD"
+            bgColor: "#074688"
         },
         {
             total: 12,
@@ -65,24 +46,24 @@ const Home = () => {
             bgColor: "#64A71D"
         },
         {
-            total: totalFemale,
+            total: femaleCount,
             name: 'Female Students',
             description: 'Active',
-            percentage: femalePercentage,
+            percentage: 80,
             bgColor: "#E957DA"
         },
         {
-            total: totalMale,
+            total: maleCount,
             name: 'Male Students',
             description: 'Active',
-            percentage: malePercentage,
-            bgColor: "#4877BD"
+            percentage: 78,
+            bgColor: "#1D92BD"
         }
     ];
 
     return (
-        <div className='flex flex-col w-full'>
-            <section className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4">
+        <div className='flex flex-col gap-4 w-full'>
+            <section className="grid grid-cols-2 md:grid-cols-4 mt-4 mb-16 gap-4">
                 {summaryInfo.map((card, index) => (
                     <div
                         key={index}
@@ -106,6 +87,11 @@ const Home = () => {
                     </div>
                 ))}
             </section>
+           <div className='flex items-center w-40 text-primary'>
+             <PiLinkSimpleFill size={25} />
+             <h2 className='text-lg font-bold'>Quick Links</h2>
+           </div>
+            <Card />
         </div>
     );
 };

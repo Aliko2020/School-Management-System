@@ -25,15 +25,15 @@ export const Navbar = () => {
     }
 
     return (
-        <nav className='w-full flex justify-between items-center bg-primaryLight py-12 px-2 text-white'>
+        <nav className='w-full flex justify-between items-center bg-primaryLight py-6 px-2 text-white'>
             <span className='text-2xl'></span>
 
             <div className='flex gap-3 items-center relative'>
                 <div className="relative inline-block cursor-pointer">
                     <IoIosNotificationsOutline size={40} />
-                    <span className="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
-                        5
-                    </span>
+                    {/* <span className="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                        
+                    </span> */}
                 </div>
                 <div className="relative flex items-center gap-2 px-4">
                     <FaUserCircle size={40} />

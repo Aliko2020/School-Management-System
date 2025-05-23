@@ -1,19 +1,17 @@
 import React from "react";
 import LinksByRole from "./LinksByRoles.jsx";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { TbLogout } from "react-icons/tb";
+
+
 
 const Sidebar = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const role = userInfo?.role;
-
   const links = LinksByRole[role] || [];
-
   return (
-    <div className="bg-primaryLight h-[calc(100vh-64px)] mt-1 p-4 text-white w-64">
-      <div className="flex justify-center items-center">
-          <span>Hello</span>
-      </div>
-      <ul className="flex flex-col gap-10 mt-10">
+    <div className="flex flex-col justify-between bg-primaryLight rounded-r-md  border-t-2 p-6 text-white w-64">
+      <ul className="flex flex-col gap-10">
         {links.map((link) => (
           <li key={link.path}>
             <NavLink
@@ -30,6 +28,10 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
+      <div className="flex gap-2 rounded-md p-3">
+        <TbLogout size={25} />
+        <Link>Logout</Link>
+      </div>
     </div>
   );
 };

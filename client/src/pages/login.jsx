@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../features/auth/authSlice'
-
-
-
-
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const LoginPage = () => {
   const dispatch = useDispatch()
@@ -19,6 +17,19 @@ const LoginPage = () => {
   })
 
   const navigate = useNavigate()
+
+  // Toast Notifications
+
+  useEffect(() => {
+    if (success && userInfo) {
+      toast.success(`Login successful as ${userInfo.role}`)
+    }
+
+    if (error) {
+      toast.error('Invalid credentials')
+    }
+  }, [success, error, userInfo])
+
   useEffect(() => {
     if (userInfo) {
       if (userInfo.role === 'admin') navigate('/admin/home')
@@ -26,7 +37,6 @@ const LoginPage = () => {
       else navigate('/student/home')
     }
   }, [userInfo, navigate])
-
 
   const handleInputs = (e) => {
     setFormData({

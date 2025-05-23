@@ -13,13 +13,27 @@ const getFeeReport = async (req, res) => {
 
         const fees = await pool.query('SELECT * FROM fees LIMIT $1 OFFSET $2', [limit, ofset])
 
+        const paidStudentsResult = await pool.query(
+            "SELECT COUNT(*) FROM fees WHERE LOWER(payment_status) = 'complete'"
+        );
+
+        const totalAmountResult = await pool.query(
+            "SELECT SUM(amount) FROM fees WHERE LOWER(payment_status) = 'complete'"
+        );
+
+        const paidStudents = parseInt(paidStudentsResult.rows[0].count);
+        const totalAmount = parseFloat(totalAmountResult.rows[0].sum);
+
         if (fees.rows.length < 0) {
             return res.status(404).json({ message: 'No records found' });
         }
+        
         res.status(200).json({
             page: page,
             limit: limit,
             total_records,
+            paidStudents,
+            totalAmount,
             total_pages: Math.ceil(total_records / limit),
             data: fees.rows
         })

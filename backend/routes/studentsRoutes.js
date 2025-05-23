@@ -6,15 +6,18 @@ const {
   getStudent,
   createStudent,
   updateStudent,
+  filterStudent,
   deleteStudent,
-  getAllStudents 
+  getAllStudents,
 } = require('../controllors/studentCrud'); 
 
 
 router.get("/:id",auth, authorizeRoles('admin','student'),getStudent);
 router.get("/",auth,authorizeRoles('admin','teacher'), getAllStudents);
+router.post("/filter",auth,authorizeRoles('admin','teacher'), filterStudent);
 router.post("/",auth,authorizeRoles('admin'), createStudent);
 router.put("/:id",auth, authorizeRoles('admin'),updateStudent);
 router.delete("/:id",auth, authorizeRoles('admin'),deleteStudent);
+
 
 module.exports = router;

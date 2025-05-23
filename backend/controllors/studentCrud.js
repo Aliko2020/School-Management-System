@@ -61,14 +61,24 @@ const getAllStudents = async (req, res) => {
   try {
     const total_records = await pool.query('SELECT COUNT(*) FROM students')
     const total_students = total_records.rows[0].count
-    
-    const result = await pool.query('SELECT * FROM students s ORDER BY s.student_id LIMIT $1 OFFSET $2',[limit,offset]);
-    
+
+    const result = await pool.query('SELECT s.student_id,s.first_name,s.last_name,s.date_of_birth,s.gender,c.class_name FROM students s JOIN class c ON s.student_class = c.class_id LIMIT $1 OFFSET $2', [limit, offset]);
+
+    const genderRecords = await pool.query(`
+      SELECT 
+        COUNT(*) FILTER (WHERE gender = 'male') AS male_count,
+        COUNT(*) FILTER (WHERE gender = 'female') AS female_count,
+        COUNT(*) AS total
+      FROM students
+    `);
+    const genderDetails = genderRecords.rows[0]
+
     res.status(200).json({
       page,
       limit,
       total_students,
       total_pages: Math.ceil(total_students / limit),
+      genderDetails,
       data: result.rows
     })
 
@@ -77,6 +87,34 @@ const getAllStudents = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+
+
+//filter 
+const filterStudent = async (req, res) => {
+  const { first_name, last_name } = req.body;
+
+  if (!first_name || !last_name) {
+    return res.status(400).json({
+      title: 'Invalid input',
+      message: 'First name and last name are required',
+    });
+  }
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM students WHERE first_name ILIKE $1 AND last_name ILIKE $2',
+      [first_name, last_name]
+    );
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ title: 'Something went wrong', message: error.message });
+  }
+};
+
+
+
+
 
 const createStudent = async (req, res) => {
   const { first_name, last_name, date_of_birth, gender, address, contact_number, email, enrollment_date, student_class } = req.body;
@@ -102,7 +140,8 @@ const createStudent = async (req, res) => {
   }
 };
 
-// update 
+
+
 const updateStudent = async (req, res) => {
   const studentId = req.params.id;
   const { first_name, last_name, date_of_birth, gender, address, contact_number, email, enrollment_date, student_class } = req.body;
@@ -145,10 +184,12 @@ const deleteStudent = async (req, res) => {
   }
 };
 
+
 module.exports = {
   getStudent,
   getAllStudents,
+  filterStudent,
   createStudent,
   updateStudent,
-  deleteStudent,
+  deleteStudent
 };

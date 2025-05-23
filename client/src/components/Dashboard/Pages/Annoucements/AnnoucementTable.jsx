@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { classes } from './classData';
+import { MdManageAccounts } from "react-icons/md";
 
 const AnnouncementsTable = ({ announcements }) => {
   const [role, setRole] = useState('');
@@ -30,36 +31,43 @@ const AnnouncementsTable = ({ announcements }) => {
   const filteredAnnouncements =
     role === 'admin'
       ? (selectedClassId === 'all'
-          ? announcements
-          : announcements.filter(a => a.class_id === Number(selectedClassId)))
+        ? announcements
+        : announcements.filter(a => a.class_id === Number(selectedClassId)))
       : announcements.filter(a => a.class_id === userClassId);
 
   return (
     <div className="">
       {role === 'admin' && (
-        <div className='flex justify-end items-center gap-2 mb-8 mt-4'>
-          <label htmlFor="selectClass" className="font-medium">
-            View By Class:
-          </label>
-          <select
-            id="selectClass"
-            className="border px-2 py-1 focus:outline-none rounded"
-            value={selectedClassId}
-            onChange={handleClassChange}
-          >
-            <option value="all">All Classes</option>
-            {classes.map(c => (
-              <option key={c.class_id} value={c.class_id}>
-                {c.class_name}
-              </option>
-            ))}
-          </select>
+        <div className='flex justify-between items-center'>
+          <div className='flex gap-1 items-center text-primary'>
+            <MdManageAccounts size={20} />
+            <h2 className='text-lg font-simibold'>Manage Annoucements</h2>
+          </div>
+
+          <div className='flex justify-end items-center gap-2 mb-8 mt-4'>
+            <label htmlFor="selectClass" className="font-medium">
+              View By Class:
+            </label>
+            <select
+              id="selectClass"
+              className="border px-2 py-1 focus:outline-none rounded"
+              value={selectedClassId}
+              onChange={handleClassChange}
+            >
+              <option value="all">All Classes</option>
+              {classes.map(c => (
+                <option key={c.class_id} value={c.class_id}>
+                  {c.class_name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       )}
 
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 text-sm">
-          <thead className="bg-gray-100 text-start">
+          <thead className="bg-primaryLight text-white text-start">
             <tr>
               <th className="border px-4 py-2 text-start">Title</th>
               <th className="border px-4 py-2 text-start">Content</th>
