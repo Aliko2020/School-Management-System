@@ -106,9 +106,20 @@ const filterStudent = async (req, res) => {
       'SELECT * FROM students WHERE first_name ILIKE $1 AND last_name ILIKE $2',
       [first_name, last_name]
     );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        title: 'Not Found',
+        message: 'Student not found',
+      });
+    }
+
     res.json(result.rows);
   } catch (error) {
-    res.status(500).json({ title: 'Something went wrong', message: error.message });
+    res.status(500).json({
+      title: 'Something went wrong',
+      message: error.message,
+    });
   }
 };
 
@@ -116,8 +127,9 @@ const filterStudent = async (req, res) => {
 
 
 
+
 const createStudent = async (req, res) => {
-  const { first_name, last_name, date_of_birth, gender, address, contact_number, email, enrollment_date, student_class } = req.body;
+  const { first_name, last_name, date_of_birth, gender, address, student_class } = req.body;
 
   try {
     const existingStudent = await pool.query(
@@ -130,8 +142,8 @@ const createStudent = async (req, res) => {
     }
 
     const result = await pool.query(
-      'INSERT INTO students (first_name, last_name, date_of_birth, gender, address, contact_number, email, enrollment_date, student_class) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-      [first_name, last_name, date_of_birth, gender, address, contact_number, email, enrollment_date, student_class]
+      'INSERT INTO students (first_name, last_name, date_of_birth, gender, address, student_class) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [first_name, last_name, date_of_birth, gender, address, student_class]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -144,12 +156,12 @@ const createStudent = async (req, res) => {
 
 const updateStudent = async (req, res) => {
   const studentId = req.params.id;
-  const { first_name, last_name, date_of_birth, gender, address, contact_number, email, enrollment_date, student_class } = req.body;
+  const { first_name, last_name, date_of_birth, gender, address, student_class } = req.body;
 
   try {
     const result = await pool.query(
-      'UPDATE students SET first_name = $1, last_name = $2, date_of_birth = $3, gender = $4, address = $5, contact_number = $6, email = $7, enrollment_date = $8, student_class = $9 WHERE student_id = $10 RETURNING *',
-      [first_name, last_name, date_of_birth, gender, address, contact_number, email, enrollment_date, student_class, studentId]
+      'UPDATE students SET first_name = $1, last_name = $2, date_of_birth = $3, gender = $4, address = $5, student_class = $6 WHERE student_id = $8 RETURNING *',
+      [first_name, last_name, date_of_birth, gender, address, student_class, studentId]
     );
 
     if (result.rows.length > 0) {

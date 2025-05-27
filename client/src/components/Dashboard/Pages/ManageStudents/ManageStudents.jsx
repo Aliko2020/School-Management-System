@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { fetchStudents,filterStudents } from '../../../../api/studentServices';
-import Filter from '../../FilterForm';
+import { fetchStudents,filterStudents } from '@/api/studentServices';
+import FilterForm from '../../FilterForm';
 import StudentsTable from './StudentTable';
+
 
 
 
 const ManageStudents = () => {
   const [students, setStudents] = useState([]);
   const [name, setName] = useState('')
-  const [filteredStudent, setFilteredStudent] = useState()
+  const [filteredStudent, setFilteredStudent] = useState([])
 
   useEffect(() => {
     const loadStudents = async () => {
@@ -24,20 +25,18 @@ const ManageStudents = () => {
 
   const handleSearch = async () => {
     try {
-      const res = await filterStudents(name)
-      setFilteredStudent(res.data);
+      const data = await filterStudents(name)
+      setFilteredStudent(data);
       setName('');
     } catch (error) {
       console.error('Error filtering students:', error.response?.data || error.message);
     }
   };
 
-  console.log(students);
-  
   return (
-    <div className="flex flex-col p-4 gap-4">
-      <Filter name={name} onSearch={handleSearch} setName={setName} />
-      <StudentsTable />
+    <div className="flex flex-col gap-4 mt-14">
+      <FilterForm name={name} onSearch={handleSearch} setName={setName} />
+      <StudentsTable filteredStudent={filteredStudent} />
     </div>
   );
 };

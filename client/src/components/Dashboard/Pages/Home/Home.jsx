@@ -62,8 +62,8 @@ const Home = () => {
     ];
 
     return (
-        <div className='flex flex-col gap-4 w-full'>
-            <section className="grid grid-cols-2 md:grid-cols-4 mt-4 mb-16 gap-4">
+        <div className='max-h-screen flex flex-col gap-4 mt-20 w-full'>
+            <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {summaryInfo.map((card, index) => (
                     <div
                         key={index}
@@ -87,7 +87,7 @@ const Home = () => {
                     </div>
                 ))}
             </section>
-           <div className='flex items-center w-40 text-primary'>
+           <div className='flex items-center w-40 mt-8 mb-2 text-primary'>
              <PiLinkSimpleFill size={25} />
              <h2 className='text-lg font-bold'>Quick Links</h2>
            </div>

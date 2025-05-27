@@ -7,8 +7,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const LoginPage = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { loading, error, success, userInfo } = useSelector((state) => state.auth)
-
   const [role, setRole] = useState('student')
   const [formData, setFormData] = useState({
     id: '',
@@ -16,11 +16,9 @@ const LoginPage = () => {
     password: '',
   })
 
-  const navigate = useNavigate()
-
-  // Toast Notifications
 
   useEffect(() => {
+    // Toast Notifications
     if (success && userInfo) {
       toast.success(`Login successful as ${userInfo.role}`)
     }
@@ -28,15 +26,12 @@ const LoginPage = () => {
     if (error) {
       toast.error('Invalid credentials')
     }
-  }, [success, error, userInfo])
-
-  useEffect(() => {
     if (userInfo) {
       if (userInfo.role === 'admin') navigate('/admin/home')
       else if (userInfo.role === 'teacher') navigate('/teacher/home')
       else navigate('/student/home')
     }
-  }, [userInfo, navigate])
+  }, [success, error, userInfo,userInfo])
 
   const handleInputs = (e) => {
     setFormData({
@@ -58,7 +53,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-blue-900">
+    <div className="flex items-center justify-center min-h-screen bg-primaryLight">
       <form className="max-w-sm w-full p-6" onSubmit={handleSubmit}>
         <div className="mb-6 text-white">
           <div className="flex justify-around">

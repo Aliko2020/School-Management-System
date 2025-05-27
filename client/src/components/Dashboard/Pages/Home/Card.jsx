@@ -77,7 +77,7 @@ const Card = () => {
         <Link
           key={index}
           to={card.link}
-          className="flex flex-col items-center gap-2 text-primary border border-gray-300 rounded-md p-3 w-full h-48"
+          className="flex flex-col items-center gap-2 bg-blue-50 text-primary border border-gray-300 hover:bg-blue-100 rounded-md p-3 w-full h-48"
         >
           <img className="w-20 h-20 object-contain mt-2" src={card.image} alt={card.name} />
           <h3 className="text-base font-semibold text-center">{card.name}</h3>
